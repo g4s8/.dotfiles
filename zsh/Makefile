@@ -10,11 +10,11 @@ FUN_SRC_FILES := $(wildcard $(FUN_SRC)/*.sh)
 FUN_ZWC_FILES := $(patsubst $(FUN_SRC)/%.sh,$(FUN_ZWC)/%.zwc,$(FUN_SRC_FILES))
 OH_MY_ZSH := $(BUILD)/.oh-my-zsh
 
-CP := cp -v
-CPR := cp -rv
-RMR := rm -rv
-RMRF := rm -vfr
-MKDIR := mkdir -pv
+CP := cp -f
+CPR := cp -fr
+RMR := rm -r
+RMRF := rm -fr
+MKDIR := mkdir -p
 GIT := git
 
 build: prepare cpsrc $(OH_MY_ZSH) fun
