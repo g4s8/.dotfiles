@@ -1,0 +1,47 @@
+
+# Environment and shell options.
+#
+
+setopt APPEND_HISTORY           # Append history list instead of replace
+setopt INC_APPEND_HISTORY       # Add history lines as soon as they are entered 
+setopt SHARE_HISTORY            # Share history between sessions
+setopt HIST_IGNORE_DUPS         # Ignore duplicates
+setopt HIST_EXPIRE_DUPS_FIRST   # Remove duplicates before add new lines when history is full
+setopt HIST_REDUCE_BLANKS       # Remove redundant blanks from history
+setopt HIST_IGNORE_SPACE        # Ignore line if first char is space
+setopt HIST_NO_STORE            # Remove history control commands (e.g. fc) from history ;)
+setopt EXTENDED_HISTORY         # Add timestamps to hist records
+
+setopt CORRECT              # Try to correct spelling of commands
+setopt CORRECT_ALL          # Try to correct all arguments
+setopt MENU_COMPLETE        # Insert first completion match immediatly
+setopt ALL_EXPORT           # Automatically export defined params
+setopt NOTIFY               # Report the status of background jobs immediatly
+setopt CDABLE_VARS          # If cd arg not a dir and not starts with '/' try to add '~'
+setopt AUTO_LIST            # Auto list choises if completions
+setopt AUTO_CD              # If line is not a command - try to `cd` into printed line
+setopt REC_EXACT            # Recognize exact completion matches
+setopt LONG_LIST_JOBS       # Format jobs in long format
+
+# TODO: continue
+setopt autoresume
+setopt histignoredups
+setopt pushdsilent 
+setopt autopushd
+setopt pushdminus
+setopt extendedglob
+setopt rcquotes 
+setopt mailwarning
+setopt complete_in_word
+setopt extended_glob
+setopt list_types
+setopt no_notify
+setopt printexitvalue
+setopt pushdtohome
+setopt pushd_ignoredups
+setopt pushd_silent
+
+unsetopt bgnice
+unsetopt autoparamslash
+
+

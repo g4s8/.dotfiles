@@ -1,0 +1,7 @@
+!-*- Xresources -*-!
+!-*- see .Xresources.d/ 
+
+#include ".Xresources.d/CONST"
+#include ".Xresources.d/urxvt"
+#include ".Xresources.d/fonts"
+#include ".Xresources.d/cursors"
