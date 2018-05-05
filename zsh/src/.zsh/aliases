@@ -7,6 +7,9 @@ alias ..='cd ..'
 alias rmr='rm -vfr'
 alias ,,='cd ..'
 
+# editor
+alias e="nvim"
+
 # git aliases
 alias gmm="git fetch upstream master:master && git merge --no-ff --no-commit master && git commit -S --no-edit"
 

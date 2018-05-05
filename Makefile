@@ -1,4 +1,4 @@
-TARGETS := i3 vim zsh X11
+TARGETS := i3 vim zsh X11 uncrustify
 
 all: $(TARGETS)
 

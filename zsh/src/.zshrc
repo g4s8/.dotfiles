@@ -66,3 +66,6 @@ export GPG_TTY=$(tty)
 
 # Add RVM and local bin to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/script:$HOME/.rvm/bin"
+
+# Configure uncrustify
+export UNCRUSTIFY_CONFIG=$HOME/.uncrustify/uncrustify.cfg
