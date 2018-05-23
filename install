@@ -1,8 +1,12 @@
-V=1.2
+#!/bin/bash
+set -e
 TMP=$(mktemp -d)
+BUNDLE=bundle
+BUNDLE_TAR=${BUNDLE}.tar.gz
 cd ${TMP}
-wget "https://github.com/g4s8/.dotfiles/archive/${V}.tar.gz"
-tar xvzf "${V}.tar.gz"
-cd ".dotfiles-${V}"
+wget $(curl https://api.github.com/repos/g4s8/.dotfiles/releases/latest | grep tarball | cut -d\" -f4) -O${BUNDLE_TAR}
+tar xvzf $BUNDLE_TAR
+cd $BUNDLE
 make all
+cd /tmp
 rm -fr ${TMP}
