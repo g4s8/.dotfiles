@@ -13,7 +13,7 @@ setopt HIST_NO_STORE            # Remove history control commands (e.g. fc) from
 setopt EXTENDED_HISTORY         # Add timestamps to hist records
 
 setopt CORRECT              # Try to correct spelling of commands
-setopt CORRECT_ALL          # Try to correct all arguments
+#setopt CORRECT_ALL          # Try to correct all arguments
 setopt MENU_COMPLETE        # Insert first completion match immediatly
 setopt ALL_EXPORT           # Automatically export defined params
 setopt NOTIFY               # Report the status of background jobs immediatly
