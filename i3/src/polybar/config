@@ -1,0 +1,188 @@
+[colors]
+background = #1a1f1c
+foreground = #c7c7c7
+foreground-alt = #1d467e
+secondary = #1d467e
+
+[bar/top]
+width = 100%
+height = 30
+fixed-center = true
+background = ${colors.background}
+foreground = ${colors.foreground}
+font-0 = SauceCodePro\ Nerd\ Font:pixelsize=12
+modules-left = github
+modules-center = xkeyboard date
+modules-right = volume backlight memory cpu temperature
+
+[module/xkeyboard]
+type = internal/xkeyboard
+blacklist-0 = num lock
+format-padding = 2
+format-prefix = " "
+label-layout = %layout%
+
+[module/filesystem]
+type = internal/fs
+interval = 25
+
+mount-0 = /
+mount-1 = /tmp
+mount-2 = /home
+mount-3 = /var
+mount-4 = /home/projects
+
+label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %free%%
+label-unmounted = %mountpoint% not mounted
+label-unmounted-foreground = ${colors.foreground-alt}
+
+[module/i3]
+type = internal/i3
+index-sort = true
+wrapping-scroll = false
+enable-scroll = false
+
+format = <label-state> <label-mode>
+format-padding-right = 2
+
+label-mode = %mode%
+label-mode-padding = 2
+label-mode-foreground = #c16772
+
+label-unfocused-foreground = #8a7f8f
+label-unfocused-padding = 1
+
+label-focused-foreground = #c16772
+label-focused-padding = 1
+
+label-urgent-foreground = #e4b226
+label-urgent-padding = 1
+
+[module/backlight]
+inherit = module/backlight
+type = internal/backlight
+card = intel_backlight
+
+format = <label>
+format-padding = 2
+
+label =  %percentage%%
+
+[module/cpu]
+type = internal/cpu
+
+interval = 2
+
+format = <label>
+format-padding = 2
+
+label =  %percentage%%
+
+[module/memory]
+type = internal/memory
+
+interval = 2
+
+format = <label>
+format-padding = 2
+
+label =  %gb_used% (%percentage_used%%)
+
+[module/wlan]
+type = internal/network
+interface = wlp3s0
+interval = 3.0
+
+format-connected = <label-connected>
+format-connected-padding = 2
+
+format-disconnected = <label-disconnected>
+format-disconnected-padding = 2
+
+label-connected =  %essid%
+label-disconnected =  None
+
+[module/date]
+type = internal/date
+interval = 5
+
+date = %a %b %d,
+time = %H:%M
+
+format-padding = 2
+
+label =  %date% %time%
+
+[module/volume]
+type = internal/volume
+
+format-volume = <label-volume> <bar-volume>
+label-volume = ♪
+label-volume-foreground = ${root.foreground}
+
+format-muted-prefix = " "
+format-muted-foreground = ${colors.foreground-alt}
+label-muted = sound muted
+
+bar-volume-width = 10
+bar-volume-foreground-0 = #55aa55
+bar-volume-foreground-1 = #55aa55
+bar-volume-foreground-2 = #55aa55
+bar-volume-foreground-3 = #55aa55
+bar-volume-foreground-4 = #55aa55
+bar-volume-foreground-5 = #f5a70a
+bar-volume-foreground-6 = #ff5555
+bar-volume-gradient = false
+bar-volume-indicator = |
+bar-volume-indicator-font = 2
+bar-volume-fill = ─
+bar-volume-fill-font = 2
+bar-volume-empty = ─
+bar-volume-empty-font = 2
+bar-volume-empty-foreground = ${colors.foreground-alt}
+
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 90
+
+format = <ramp> <label> 
+format-underline = #f50a4d
+format-warn = <ramp> <label-warn>
+format-warn-underline = ${self.format-underline}
+
+label = %temperature%
+label-warn = %temperature%
+label-warn-foreground = ${colors.secondary}
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-3 = 
+ramp-4 = 
+format-margin = 2
+format-warn-margin = 2
+
+[settings]
+screenchange-reload = true
+
+[global/wm]
+margin-top = 2
+margin-bottom = 2
+
+[module/github]
+type = internal/github
+
+; Accessing an access token stored in file
+token = ${file:/home/g4s8/.config/polybar/ght.txt}
+
+; Whether empty notifications should be displayed or not
+empty-notifications = false
+
+; Number of seconds in between requests
+interval = 10
+
+label =  %notifications%
+format-margin = 2
+
+; vim:ft=dosini

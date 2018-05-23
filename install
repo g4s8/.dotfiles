@@ -1,12 +1,10 @@
 #!/bin/bash
 set -e
+set -x
 TMP=$(mktemp -d)
-BUNDLE=bundle
-BUNDLE_TAR=${BUNDLE}.tar.gz
 cd ${TMP}
-wget $(curl https://api.github.com/repos/g4s8/.dotfiles/releases/latest | grep tarball | cut -d\" -f4) -O${BUNDLE_TAR}
-tar xvzf $BUNDLE_TAR
-cd $BUNDLE
+git clone https://github.com/g4s8/.dotfiles
+cd .dotfiles
 make all
 cd /tmp
 rm -fr ${TMP}
