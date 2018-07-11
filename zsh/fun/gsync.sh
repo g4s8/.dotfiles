@@ -1,6 +1,4 @@
-echo "pulling master..."
-git pull upstream master
-echo "fetching upstream..."
-git fetch upstream -pv
-echo "fetching origin..."
-git fetch origin -pv
+remote=$1
+echo "syncing with ${remote}"
+git pull $remote master
+git fetch $remote -pv

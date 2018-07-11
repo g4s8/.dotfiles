@@ -1,0 +1,62 @@
+# aliases
+
+# common aliases
+alias ll='ls -lh'
+alias la='ls -la'
+alias ..='cd ..'
+alias rmr='rm -vfr'
+alias ,,='cd ..'
+
+# editor
+alias e="nvim"
+
+# git aliases
+alias gmm="git fetch origin master:master && git merge --no-ff --no-commit master && git commit -S --no-edit"
+
+# mvn aliases
+alias mvc="mvn clean"
+alias mvq='mvn install -Pqulice --errors'
+alias mvcq='mvn clean install -Pqulice --errors'
+
+# gradlealiases
+alias grci="./gradlew clean build"
+
+# OS dependend aliases
+function {
+  local os=$1
+  if [[ "$os" == "Linux" ]]; then
+    alias ls='ls --color=auto'
+    alias grep='grep --color=auto'
+  elif [[ "$os" == "Darwin" ]]; then
+    alias ls='ls -G'
+  fi
+} $(uname)
+  
+# file aliases
+alias -s conf=vim
+alias -s py=python
+alias -s cnf=vim
+alias -s cfg=vim
+alias -s avi=mplayer
+alias -s mp3=mplayer 
+alias -s mkv=mplayer
+alias -s jar='java -jar'
+alias -s html='firefox'
+alias -s htm='firefox'
+
+# replace some commands with grc (frontend for generic colouriser)
+command -v grc > /dev/null 2>&1 && {
+  alias ping="grc --colour=auto ping"
+  alias traceroute="grc --colour=auto traceroute"
+  alias make="grc --colour=auto make"
+  alias diff="grc --colour=auto diff"
+  alias cvs="grc --colour=auto cvs"
+  alias netstat="grc --colour=auto netstat"
+}
+
+# load user aliases
+function {
+  local user_aliases="aliases.local"
+  [[ -f $user_aliases ]] && source $user_aliases
+}
+
