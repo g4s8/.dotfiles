@@ -10,8 +10,6 @@ alias ,,='cd ..'
 # editor
 alias e="nvim"
 
-# git aliases
-alias gmm="git fetch origin master:master && git merge --no-ff --no-commit master && git commit -S --no-edit"
 
 # mvn aliases
 alias mvc="mvn clean"

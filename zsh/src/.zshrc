@@ -51,6 +51,15 @@ _zshrc_try_source $ZSHDIR/style
   }
 }
 
+# Custom autocompletions
+#
+{
+  local completions="${ZSHDIR}/completions/"
+  [[ -d "${completions}" ]] && {
+    fpath=($completions $fpath)
+  }
+}
+
 # Set hsitory stuff.
 #
 export HISTFILE=$HOME/.zhistory

@@ -1,0 +1,11 @@
+#compdef gsync
+
+_gsync() {
+  local state
+  _arguments '1: :->remote'
+  case $state in
+    (remote) _arguments '1:remote:(git remote)' ;;
+  esac
+}
+
+_gsync "$@"
