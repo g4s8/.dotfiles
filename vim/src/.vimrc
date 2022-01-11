@@ -1,172 +1,299 @@
-scriptencoding utf-8
-set nocompatible
-filetype off
+" ~/.vimrc by github.com/g4s8
 
-" Plugins
+" Unicode
+scriptencoding utf-8
+" Not compatible with vi
+set nocompatible
+" Syntax detection
+syntax on
+" Highlight search
+set hlsearch
+" Menu config
+set wildmode=longest,list,full
+" set wildmode=
+" Backspace behaviour
+" indent  allow backspacing over autoindent
+" eol     allow backspacing over line breaks (join lines)
+" start   allow backspacing over the start of insert; CTRL-W and CTRL-U
+"         stop once at the start of insert.
+set backspace=indent,eol,start
+" No backup files
+set nobackup
+" History size
+set history=500 
+"show the cursor position
+set ruler
+"display incomplete commands
+set showcmd
+" Show matched pattern when typing search command
+set incsearch
+" smart search case
+set ignorecase smartcase
+
+" Mouse config
+if has('mouse')
+  set mouse=a
+endif
+
+" Scrolling config
+set scrolljump=8
+set scrolloff=8
+
+" Tabs config
+set expandtab
+set shiftwidth=2
+set smarttab
+
+" Use external .vimrc in current folder root
+set exrc
+" Forbid buffer writing, shell commands
+" and autocmd from local dir .vimrc files
+set secure
+
+" show line numbers
+set number relativenumber
+
+" Plugins declaration
 if has('nvim')
   call plug#begin('~/.nvim/plugged')
 else
   call plug#begin('~/.vim/plugged')
 endif
+
+" GoLang support
 Plug 'fatih/vim-go'
+
+" Some vim defaults
 Plug 'tpope/vim-sensible'
+
+" Color scheme
 Plug 'junegunn/seoul256.vim'
+
+" Navigation
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+" Git status for files in NERDTree
+Plug 'Xuyuanp/nerdtree-git-plugin'
 if !has('nvim')
-  Plug 'https://github.com/chrisbra/vim-autoread.git'
+    "auto update buffer
+    Plug 'https://github.com/chrisbra/vim-autoread.git' 
 endif
+
+" Easy selection pairs via `viv` and `vav`
 Plug 'gorkunov/smartpairs.vim'
-Plug 'artur-shaik/vim-javacomplete2' " java autocompletion
-Plug 'sbdchd/neoformat' " auto-formatting
-" generic autocompletion
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
+
+" Dev framework https://github.com/Valloric/YouCompleteMe
+Plug 'Valloric/YouCompleteMe'
+
+" Plug 'artur-shaik/vim-javacomplete2'
+
+" Dark powered asynchronous unite all interfaces for Neovim/Vim8 
+" if has('nvim')
+"     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" else
+"     Plug 'Shougo/deoplete.nvim'
+"     Plug 'roxma/nvim-yarp'
+"     Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+
+" Dark powered asynchronous unite all interfaces for Neovim/Vim8 
 Plug 'https://github.com/Shougo/denite.nvim'
-"Plug 'neomake/neomake' " linting (conflict with ale)
+
+" TOML syntax
+Plug 'cespare/vim-toml'
+
+" Tag bar panel
 Plug 'majutsushi/tagbar'
+" Insert pairs [ -> []
 Plug 'jiangmiao/auto-pairs'
+" Linter
 Plug 'w0rp/ale'
+" Highlight hex colors like #ff0000 with :ColorHighlight
 Plug 'chrisbra/color_highlight'
 Plug 'mkitt/tabline.vim'
+" Show additiona/deletions/modifications 
+Plug 'airblade/vim-gitgutter'
+" Ethereum solidity syntax
+Plug 'tomlion/vim-solidity'
+" Language tool
+Plug 'dpelle/vim-LanguageTool'
+" sneak
+Plug 'justinmk/vim-sneak'
+" terraform syntax
+Plug 'hashivim/vim-terraform'
+" scriptease.vim: A Vim plugin for Vim plugins
+Plug 'tpope/vim-scriptease'
+" Licenser plugin
+Plug 'g4s8/vim-licenser'
+" Comment lines in source files
+Plug 'tpope/vim-commentary'
+" File navigation
+Plug 'ctrlpvim/ctrlp.vim'
+" git blame
+Plug 'zivyangll/git-blame.vim'
+" XML completion
+" Plug 'vim-scripts/XML-Completion'
+" Rust
+Plug 'rust-lang/rust.vim'
+" Handlebars
+Plug 'mustache/vim-mustache-handlebars'
+
+" nginx config
+Plug 'chr4/nginx.vim'
+
+" parentheses, brackets, quotes, XML tags, and more
+Plug 'tpope/vim-surround'
+
+" pugjs
+Plug 'digitaltoad/vim-pug'
+"
+" Plug 'vim-latex/vim-latex'
+
+" nodejs
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" TLA+
+Plug 'vim-scripts/tla.vim'
+
 call plug#end()
 
-syntax on
-set hlsearch
+""" Mappings
 
-set wildmode=longest,list,full
-set wildmenu
-set backspace=indent,eol,start
+" Mapping tab character to Shift+Tab
+inoremap <S-Tab> <C-V><Tab>
 
-set nobackup
+" Tabs navigation
+nnoremap <C-t> :tabnew<CR>
+nnoremap <C-right> :tabnext<CR>
+nnoremap <C-left> :tabprevious<CR>
+nnoremap <C-w> :tabclose<CR>
 
-set history=500 
-
-set ruler "show the cursor position
-set showcmd "display incomplete commands
-set incsearch
-
-if has('mouse')
-  set mouse=a
-endif
-
-set scrolljump=8
-set scrolloff=8
-
-set expandtab
-set tabstop=4
-set shiftwidth=4
-set smarttab
-
-set exrc "use external .vimrc in current folder root
-set secure
-
-set number " show line numbers
-
-" search
-if executable('ag')
-    " Use ag (the silver searcher)
-    " https://github.com/ggreer/the_silver_searcher
-    let g:unite_source_grep_command = 'ag'
-    let g:unite_source_grep_default_opts =
-                \ '-i --line-numbers --nocolor ' .
-                \ '--nogroup --hidden --ignore ' .
-                \ '''.hg'' --ignore ''.svn'' --ignore' .
-                \ ' ''.git'' --ignore ''.bzr'''
-    let g:unite_source_grep_recursive_opt = ''
-endif
-nnoremap <C-S-r> :Denite file_rec<CR>
-
-" deoplate
-" > Dark powered asynchronous completion framework for neovim/Vim8
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#omni_patterns = {}
-let g:deoplete#omni_patterns.java = '[^. *\t]\.\w*'
-let g:deoplete#sources = {}
-let g:deoplete#sources._ = []
-let g:deoplete#file#enable_buffer_path = 1
-
-" javacomplete2
-let g:JavaComplete_ImportOrder = ['*']
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
-autocmd FileType java nmap <C-S-o> <Plug>(JavaComplete-Imports-RemoveUnused)
-autocmd FileType java nmap <C-S-i> <Plug>(JavaComplete-Imports-Add)
-autocmd FileType java imap <C-S-i> <Plug>(JavaComplete-Imports-Add)
-
-" neomake (linter)
-"autocmd! BufWritePost,BufEnter * Neomake
-"autocmd FileType java nmap <C-S-l> :Neomake javac<CR>
-" ale (linter)
-let g:ale_linters               = {'java': ['javac', 'checkstyle'], 'go': ['gofmt', 'goimports', 'golint']}
-let g:ale_echo_msg_error_str    = 'ERROR'
-let g:ale_echo_msg_warning_str  = 'WARN'
-let g:ale_echo_msg_format       = '[%severity% (%linter%)]: %s'
-"let g:ale_sign_error            = ' '
-"let g:ale_sign_warning           = ' '
-let g:ale_sign_error            = '>>'
-let g:ale_sign_warning          = '>>'
-let g:ale_javascript_eslint_executable = 'eslint_d'
-let g:ale_java_checkstyle_options = '-c ~/.qulice.checkstyle.xml'
-
-" neoformat
-noremap <C-S-f> :Neoformat<CR>
-"TODO: fix uncristify config
-"augroup uncrustify
-"  autocmd!
-"  autocmd BufWritePre * Neoformat
-"augroup END
-
-" Buffer navigation
-nnoremap <F5> :BufExplorer<CR>
-nnoremap <A-right> :bn<CR>i
-nnoremap <A-left> :bp<CR>i
-nnoremap <C-Tab> :bn<CR>i
-nnoremap <C-S-Tab> :bp<CR>i
-
+" Arrows
 nnoremap <left> b
 nnoremap <right> e
 nnoremap <up> <PageUp>
 nnoremap <down> <PageDown>
+inoremap <S-left> ←
+inoremap <S-right> →
+inoremap <S-up> ↑
+inoremap <S-down> ↓
+" TODO: use alt
+" inoremap <S-up> ▲
+" inoremap <S-down> ▼
+" inoremap <S-left> ◀
+" inoremap <S-right> ▶
 
 " TAB = indent, Shift+TAB = dedent
-vmap <Tab> <gv
-vmap <S-Tab> >gv
+vnoremap <S-Tab> <gv
+vnoremap <Tab> >gv
+
+nnoremap <Space> <PageDown>
+
+nnoremap tg :TagbarToggle<CR>
+
+""" Plugin config
+
+" ALE linters config
+let g:ale_linters               = {
+      \ 'java': ['javac', 'checkstyle'],
+      \ 'go': ['gofmt', 'goimports', 'golint'],
+      \ }
+let g:ale_echo_msg_error_str = 'ERROR'
+let g:ale_echo_msg_warning_str = 'WARN'
+let g:ale_echo_msg_format = '[%severity% (%linter%)]: %s'
+let g:ale_sign_error = ' '
+let g:ale_sign_warning = ' '
+let g:ale_java_checkstyle_options = '-c ~/.qulice.checkstyle.xml'
+
+"git blame config
+nnoremap gb :<C-u>call gitblame#echo()<CR>
 
 " refactor rename
-nnoremap <C-A-r> :%s/\<<C-r>=expand("<cword>")<CR>\>/
+" nnoremap <C-A-r> :%s/\<<C-r>=expand("<cword>")<CR>\>/
 
-" nerd-tree
+" nerd-tree config
 nnoremap <C-n> :NERDTreeToggle<CR>
+
 let g:NERDTreeAutoCenter          = 1
 let g:NERDTreeAutoCenterThreshold = 8
 let g:NERDTreeChDirMode           = 2
 let g:NERDTreeHighlightCursorline = 1
-let g:NERDTreeIgnore              = ['.git$[[dir]]', 'target$[[dir]]', '.idea$[[dir]]', '\.iml$[[file]]', 'build$[[dir]]']
+let g:NERDTreeIgnore              = [
+  \ '.git$[[dir]]', 'target$[[dir]]', '.idea$[[dir]]',
+  \ '\.iml$[[file]]', 'build$[[dir]]',
+  \ ]
 let g:NERDTreeWinSize             = 40
 let g:NERDTreeShowHidden          = 1
 let g:NERDTreeShowLineNumbers     = 0
 let g:NERDTreeMinimalUI           = 1
 
-" tag-bar
-let g:tagbar_width = 50
-nnoremap <C-t> :TagbarToggle<CR>
+augroup NERDTree
+  autocmd!
+  " open NERDTree if open directory
+  autocmd StdinReadPre * let s:std_in=1
+  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+  " close NERDTree if it's a last window
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+augroup END
 
-nnoremap <Space> <PageDown>
+" tag-bar config
+let g:tagbar_width = 50
+
+" seoul256 config
+let g:seoul256_background = 256
+colo seoul256-light
 
 " CTRL+Space for completions
-inoremap <expr> <C-Space> pumvisible() \|\| &omnifunc == '' ?
-            \ "\<lt>C-n>" :
-            \ "\<lt>C-x>\<lt>C-o><c-r>=pumvisible() ?" .
-            \ "\"\\<lt>c-n>\\<lt>c-p>\\<lt>c-n>\" :" .
-            \ "\" \\<lt>bs>\\<lt>C-n>\"\<CR>"
-imap <C-@> <C-Space>
+" inoremap <expr> <C-Space> pumvisible() \|\| &omnifunc == '' ?
+"             \ "\<lt>C-n>" :
+"             \ "\<lt>C-x>\<lt>C-o><c-r>=pumvisible() ?" .
+"             \ "\"\\<lt>c-n>\\<lt>c-p>\\<lt>c-n>\" :" .
+"             \ "\" \\<lt>bs>\\<lt>C-n>\"\<CR>"
+" imap <C-@> <C-Space>
 
+" ctrl-p config
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.git|target|node_modules|_build)$',
+  \ 'file': '\v\.(so|class|o)$',
+  \ }
+
+" tagbar config
+nnoremap <F4> :TagbarToggle<CR>
+
+" custom templates
+augroup templates
+  " autocmd FileType *java setlocal omnifunc=javacomplete#Complete
+
+  autocmd!
+  autocmd BufRead *.java if getfsize(expand('%'))==0|$r ~/.vim/templates/skeleton.java|call s:SetupJavaClass()|endif
+  autocmd BufNewFile *java $r ~/.vim/templates/skeleton.java|call s:SetupJavaClass()
+
+  autocmd BufRead *.xsd if getfsize(expand('%'))==0|$r ~/.vim/templates/skeleton.xsd|endif
+  autocmd BufNewFile *.xsd $r ~/.vim/templates/skeleton.xsd
+
+  autocmd BufRead pom.xml if getfsize(expand('%'))==0|$r ~/.vim/templates/skeleton.pom.xml|endif
+  autocmd BufNewFile pom.xml $r ~/.vim/templates/skeleton.pom.xml
+
+  autocmd BufRead *.sh if getfsize(expand('%'))==0|$r ~/.vim/templates/skeleton.sh|endif
+  autocmd BufNewFile *.sh $r ~/.vim/templates/skeleton.sh
+
+  fun! JavaPackageName()
+    " reversed path array
+    let l:path = reverse(split(expand('%:h'), '/'))
+    let l:rootId = index(l:path, 'java')
+    if l:rootId > 0
+      return join(reverse(l:path[:l:rootId - 1]), '.')
+    endif
+    return ''
+  endfun
+
+  fun! s:SetupJavaClass()
+    exe "%s/__CLASS_NAME__/" . expand('%:t:r')
+    let l:package = JavaPackageName()
+    if len(l:package) > 0
+      exe "%s/__PACKAGE_NAME__/" . l:package
+    endif
+  endfun
+augroup END
 
 filetype plugin indent on
 
-let g:seoul256_background = 235
-colo seoul256
