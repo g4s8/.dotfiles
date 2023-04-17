@@ -20,14 +20,17 @@ if [[ -f $HOME/.config/goprivate ]]; then
   goprivate=
   while IFS= read -r; do
     [[ -n $REPLY ]] && {
-      goprivate="${goprivate},$REPLY"
+      if [[ -n $goprivate ]]; then
+        goprivate="${goprivate},$REPLY"
+      else
+        goprivate=$REPLY
+      fi
     }
   done < $HOME/.config/goprivate
   if [[ -n $goprivate ]]; then
     if [[ -n $GOPRIVATE ]]; then
-      $goprivate="${GOPRIVATE},$goprivate"
+      goprivate="${GOPRIVATE},$goprivate"
     fi
     export GOPRIVATE=$goprivate
   fi
 fi
-
