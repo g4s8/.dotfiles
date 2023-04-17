@@ -9,8 +9,8 @@ alias la="ls -lA"
 alias lah="ls -lAh"
 
 # maven
-alias mciq="mvn clean install -Pqulice"
-alias mci="mvn clean install"
+alias mcp="mvn clean package"
+alias mcv="mvn clean verify"
 
 # kubectl
 alias kcaf="kubectl apply -f"
@@ -20,11 +20,14 @@ alias kcgp="kubectl get pod"
 alias kcgs="kubectl get svc"
 
 # bash
-alias gst="git status -s"
+alias gst="git status"
+alias gs="git status -s"
 alias gd="git diff"
 alias gds="git diff --staged"
 alias gprom="git pull --rebase origin master"
 alias gca="git commit --amend"
+
+alias "?"="echo $?"
 
 # shortcats
 alias py="python3"
@@ -32,3 +35,6 @@ alias py="python3"
 # cd
 alias ...="cd ../.."
 alias ....="cd ../../.."
+
+# special
+alias :q="exit"

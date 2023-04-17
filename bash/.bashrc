@@ -1,33 +1,17 @@
 if [[ $- != *i* ]] ; then
-	# Shell is non-interactive.  Be done now!
+	# skip non-interactive shell.
 	return
 fi
 
-if [[ -f $HOME/.bashrc.pre ]]; then
-  source $HOME/.bashrc.pre
-fi
+[[ -f $HOME/.bashrc.pre ]] && source $HOME/.bashrc.pre
 
-function _bashrc {
-    local bashdir="$HOME/.bash"
+# apply extensions
+for ext in $(find $HOME/.bash -type f -name '*.ext.sh'); do
+  source $ext
+done
 
-    _try_load_bash_ext() {
-        source "${bashdir}/${1}.sh"
-    }
-
-    # apply extensions
-    local extensions=(colors aliases utils)
-    for ext in ${extensions[*]}; do
-        _try_load_bash_ext $ext
-    done
-    unset -f _try_load_bash_ext
-
-    _ps_git_branch() {
-        local branch=""
-        if [[ -d ".git" ]]; then
-            git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-        fi
-    }
-
+# generate PS1 string
+function _ps1str {
     local red="\[$(tput setaf 1)\]"
     local rst="\[$(tput sgr0)\]"
     local blue="\[$(tput setaf 4)\]"
@@ -35,35 +19,32 @@ function _bashrc {
     local brown="\[$(tput setaf 3)\]"
     local cyan="\[$(tput setaf 5)\]"
 
-    local ps=" "
-    if [[ $(whoami) == "root" ]]; then
-        ps="${ps}${red}"
+    local ps=
+    if [[ $(id -u) == 0 ]]; then
+      ps=" ${red}"
     else
-        ps="${ps}${blue}"
+      ps=" ${blue}"
     fi
-    ps="${ps}\\u${rst}"
-    ps="${ps} ${green} \\w${rst}"
-    ps="${ps}${brown}\$(_ps_git_branch)${rst}"
-    ps="${ps} ${cyan}>${rst} "
-    export PS1=$ps
 
-
-    # export gpg tty
-    export GPG_TTY=$(tty)
-
-    # export paths
-    export PATH="$HOME/.local/bin:$HOME/go/bin:$HOME/.cargo/bin:$HOME/.ruby/bin:$PATH"
-    export GEM_HOME="$HOME/.ruby"
+    ps="${ps}\\u${rst} ${brown}\\w${rst}"
+    [[ -d .git ]] && {
+      ps="${ps}${green}"'$(__git_ps1 " git:%s")'"${rst}"
+    }
+    ps="${ps} ${cyan}>${rst}"
+    echo -n $ps
 }
 
-_bashrc
-unset -f _bashrc
+export GIT_PS1_SHOWDIRTYSTATE=yes
+export GIT_PS1_SHOWCONFLICTSTATE=yes
+export GIT_PS1_DESCRIBE_STYLE=branch
+export GIT_PS1_SHOWCOLORHINTS=yes
+
+export PS1="$(_ps1str) "
 
 
 # Tab completion
 bind 'set show-all-if-ambiguous on'
 bind 'TAB:menu-complete'
-
 
 # Prevent file overwrite on stdout redirection
 # Use `>|` to force redirection to an existing file
@@ -85,22 +66,17 @@ shopt -s globstar 2> /dev/null
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob
 
-## SMARTER TAB-COMPLETION (Readline bindings) ##
-BASH_AUTOCOMPLETION=true
+# Perform file completion in a case insensitive fashion
+bind "set completion-ignore-case on"
 
-if [[ $BASH_AUTOCOMPLETION == "true" ]]; then
-    # Perform file completion in a case insensitive fashion
-    bind "set completion-ignore-case on"
+# Treat hyphens and underscores as equivalent
+bind "set completion-map-case on"
 
-    # Treat hyphens and underscores as equivalent
-    bind "set completion-map-case on"
+# Display matches for ambiguous patterns at first tab press
+bind "set show-all-if-ambiguous on"
 
-    # Display matches for ambiguous patterns at first tab press
-    bind "set show-all-if-ambiguous on"
-
-    # Immediately add a trailing slash when autocompleting symlinks to directories
-    bind "set mark-symlinked-directories on"
-fi
+# Immediately add a trailing slash when autocompleting symlinks to directories
+bind "set mark-symlinked-directories on"
 
 ## SANE HISTORY DEFAULTS ##
 
@@ -121,7 +97,7 @@ HISTFILESIZE=1000000
 HISTCONTROL="erasedups:ignoreboth"
 
 # Don't record some commands
-export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"
+export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear:sudo"
 
 # Use standard ISO 8601 timestamp
 # %F equivalent to %Y-%m-%d
@@ -157,11 +133,19 @@ if [ -z $DISPLAY ] && [ "$(tty)" == "/dev/tty1" ]; then
   read -p "Start Sway? (y/n): " yn
   if [[ $yn == "y" ]]; then
     _xrd=/tmp/.xdg_runtime/g4s8
-    mkdir -pv "${_xrd}" && exec env XDG_RUNTIME_DIR="${_xrd}" dbus-run-session sway
+    mkdir -pv "${_xrd}" && \
+      exec \
+        env \
+          XDG_RUNTIME_DIR="${_xrd}" \
+          XDG_SESSION_TYPE=wayland \
+          XDG_CURRENT_DESKTOP=sway \
+        dbus-run-session sway
   fi
 fi
-# complete -C /usr/bin/terraform terraform
 
-# for ruby https://github.com/rbenv/rbenv
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init - bash)"
+[[ -f $HOME/.cargo/env ]] && source $HOME/.cargo/env
+
+# BEGIN_KITTY_SHELL_INTEGRATION
+if test -n "$KITTY_INSTALLATION_DIR" -a -e "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; then source "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; fi
+# END_KITTY_SHELL_INTEGRATION
+

@@ -2,8 +2,9 @@ all: install
 
 TARGET := ${HOME}
 
-.PHONY: install
+.PHONY: install install_yes
 install:
-	cp -ri .bash $(TARGET)
-	cp -i .bash_profile $(TARGET)
-	cp -i .bashrc $(TARGET)
+	cp -rvi .bash* -t $(TARGET)
+
+install_yes:
+	cp -rv .bash* -t $(TARGET)
