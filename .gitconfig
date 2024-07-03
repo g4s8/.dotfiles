@@ -1,0 +1,53 @@
+[core]
+	editor = /bin/nvim
+
+[init]
+	defaultBranch = master
+
+[difftool "difftastic"]
+        cmd = difft "$LOCAL" "$REMOTE"
+
+[difftool]
+        prompt = false
+
+[diff]
+        tool = difftastic
+        external = difft
+
+[mergetool "nvim"]
+        cmd = nvim -f -c \"Gdiffsplit!\" \"$MERGED\"
+
+[merge]
+        commit = no
+        ff = true
+        tool = nvim
+
+[pager]
+        difftool = true
+
+[pull]
+	rebase = true
+
+[gpg]
+	program = gpg
+
+[commit]
+	gpgSign = true
+
+[protocol "file"]
+	allow = always
+
+[alias]
+        dft = difftool
+	last = log -1 HEAD
+	graph = log --graph --decorate=full --all --format=short --shortstat
+	changelog = "!f() { git log --no-merges --format=\"format: - %h - %s%n   by %an <%ae>\" $1..HEAD; }; f"
+	amend = commit --amend
+	sync = !git pull --rebase --autostash --tags --prune origin $(git branch --show-current)
+	head = rev-parse HEAD
+	head6 = rev-parse --short=6 HEAD
+	head8 = rev-parse --short=8 HEAD
+
+# create local or private config in ~/.gitconfig.local
+[include]
+        path = .gitconfig.include
