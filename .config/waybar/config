@@ -1,0 +1,89 @@
+{
+    "layer": "top",
+    "modules-left": ["sway/mode"],
+    "modules-center": ["clock"],
+    "modules-right": ["temperature", "network", "bluetooth", "memory", "cpu", "backlight", "battery", "sway/language"],
+    "sway/window": {
+        "max-length": 50
+    },
+    "battery": {
+        "format": "{icon} ",
+        "format-icons": ["", "", "", "", ""],
+        "interval": 5,
+        "states": {
+          "warning": 19,
+          "critical": 9
+        },
+        "tooltip-format": "Power: {power:0.1f}W\nCapacity: {capacity}%\nEST:{time}"
+    },
+    "clock": {
+        "interval": 1,
+        "format": "{:%H:%M:%S}",
+        "format-alt": "{:%a, %d. %b  %H:%M}",
+        "tooltip-format": "<big>{:%Y %B %d}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+    "backlight": {
+      "device": "intel_backlight",
+      "format": "{percent}% {icon}",
+      "format-icons": ["", ""]
+    },
+    "cpu": {
+      "interval": 5,
+      "format": "{usage:02}% ",
+      "max-length": 10
+    },
+    "memory": {
+      "interval": 5,
+      "format": "{used:0.1f}G ",
+      "max-length": 10,
+      "states": {
+        "low": 0,
+        "medium": 50,
+        "high": 80
+      }
+    },
+    "idle_inhibitor": {
+      "format": "{icon}",
+      "format-icons": {
+        "activated": "",
+        "deactivated": ""
+      }
+    },
+    "network": {
+      "interval": 5,
+      "interface": "wlp3s0",
+      "format": "{ifname}",
+      "format-wifi": "{signalStrength:02}% ",
+      "format-ethernet": "",
+      "format-disconnected": "",
+      "tooltip-format": "{ifname}: ↑{bandwidthUpBits} ↓{bandwidthDownBits}",
+      "tooltip-format-wifi": "{ifname}\n{essid}: {signalStrength}% {frequency}MHz\n↑{bandwidthUpBits} ↓{bandwidthDownBits}",
+      "tooltip-format-disconnected": "Disconnected",
+      "max-length": 50
+    },
+    "bluetooth": {
+      "format": " {status}",
+      "format-disabled": "",
+      "format-connected": "",
+      "format-connected-battery": " {device_battery_percentage}%",
+      "tooltip-format": "{controller_alias} ({controller_address})",
+      "tooltip-format-connected": "{controller_alias} ({controller_address})\n\n{num_connections} connections:\n{device_enumerate}",
+      "tooltip-format-enumerate-connected": " - '{device_alias}' ({device_address})"
+    },
+    "sway/mode": {
+        "format": " {}",
+        "max-length": 50
+    },
+    "sway/language": {
+        "format": "{}",
+        "on-click": "swaymsg input type:keyboard xkb_switch_layout next",
+    },
+    "temperature": {
+      "interval": 5,
+      "thermal-zone": 0,
+      "hwmon-path": "/sys/class/hwmon/hwmon3/temp1_input",
+      "critical-threshold": 90,
+      "format-critical": "{temperatureC}°C ",
+      "format": "{temperatureC}°C "
+    }
+}
