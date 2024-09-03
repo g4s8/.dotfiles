@@ -1,3 +1,5 @@
+" ~/.vimrc by github.com/g4s8
+
 " Unicode
 scriptencoding utf-8
 " Not compatible with vi
@@ -177,6 +179,8 @@ nnoremap <right> :tabnext<CR>
 nnoremap <left> :tabprevious<CR>
 nnoremap <Space>tn :tabnew<CR>
 nnoremap <Space>tc :tabclose<CR>
+nnoremap <Space>tl :tabnext<CR>
+nnoremap <Space>th :tabprevious<CR>
 nnoremap <Space>nt :NERDTreeToggle<CR>
 
 " Clap shortcuts
@@ -226,8 +230,11 @@ let g:copilot_filetypes = {
   \ 'python': v:true,
   \ 'rust': v:true,
   \ 'c': v:true,
+  \ 'h': v:true,
   \ 'sol': v:true,
   \ 'sh': v:true,
+  \ 'Makefile': v:true,
+  \ 'Dockerfile': v:true,
   \ }
 
 " ALE linters config
