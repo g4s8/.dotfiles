@@ -38,3 +38,5 @@ fi
 export GOPROXY="https://proxy.golang.org,direct"
 export GOSUMDB="sum.golang.org"
 
+export FLYCTL_INSTALL="/home/g4s8/.fly"
+export PATH="$FLYCTL_INSTALL/bin:$PATH"
