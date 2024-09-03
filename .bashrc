@@ -28,7 +28,7 @@ function _ps1str {
 
     ps="${ps}\\u${rst} ${brown}\\w${rst}"
     ps="${ps}${green}"'$(__git_ps1 " (git:%s${CLR_GREEN})")'"${rst}"
-    ps="${ps} ${cyan}>${rst}"
+    ps="${ps} ${cyan}\$${rst}"
     echo -n $ps
 }
 
