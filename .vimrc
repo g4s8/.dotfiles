@@ -30,6 +30,10 @@ set incsearch
 " smart search case
 set ignorecase smartcase
 
+set updatetime=200
+
+set signcolumn=yes
+
 " Mouse config
 if has('mouse')
   set mouse=a
@@ -83,24 +87,9 @@ endif
 Plug 'gorkunov/smartpairs.vim'
 
 " Dev framework https://github.com/Valloric/YouCompleteMe
-Plug 'Valloric/YouCompleteMe'
+" Plug 'Valloric/YouCompleteMe'
 
-" Plug 'artur-shaik/vim-javacomplete2'
-
-" Dark powered asynchronous unite all interfaces for Neovim/Vim8 
-" if has('nvim')
-"     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" else
-"     Plug 'Shougo/deoplete.nvim'
-"     Plug 'roxma/nvim-yarp'
-"     Plug 'roxma/vim-hug-neovim-rpc'
-" endif
-
-" Dark powered asynchronous unite all interfaces for Neovim/Vim8 
-Plug 'https://github.com/Shougo/denite.nvim'
-
-" TOML syntax
-Plug 'cespare/vim-toml'
+Plug 'neoclide/coc.nvim', {'branch': 'master'}
 
 " Tag bar panel
 Plug 'majutsushi/tagbar'
@@ -114,13 +103,13 @@ Plug 'mkitt/tabline.vim'
 " Show additiona/deletions/modifications 
 Plug 'airblade/vim-gitgutter'
 " Ethereum solidity syntax
-Plug 'tomlion/vim-solidity'
+" Plug 'tomlion/vim-solidity'
 " Language tool
 Plug 'dpelle/vim-LanguageTool'
 " sneak
 Plug 'justinmk/vim-sneak'
 " terraform syntax
-Plug 'hashivim/vim-terraform'
+" Plug 'hashivim/vim-terraform'
 " scriptease.vim: A Vim plugin for Vim plugins
 Plug 'tpope/vim-scriptease'
 " Licenser plugin
@@ -131,12 +120,6 @@ Plug 'tpope/vim-commentary'
 Plug 'ctrlpvim/ctrlp.vim'
 " git blame
 Plug 'zivyangll/git-blame.vim'
-" XML completion
-" Plug 'vim-scripts/XML-Completion'
-" Rust
-Plug 'rust-lang/rust.vim'
-" Handlebars
-Plug 'mustache/vim-mustache-handlebars'
 
 " Clap fuzzy picker
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
@@ -146,14 +129,6 @@ Plug 'chr4/nginx.vim'
 
 " parentheses, brackets, quotes, XML tags, and more
 Plug 'tpope/vim-surround'
-
-" pugjs
-Plug 'digitaltoad/vim-pug'
-"
-" Plug 'vim-latex/vim-latex'
-
-" nodejs
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " TLA+
 Plug 'vim-scripts/tla.vim'
@@ -218,6 +193,51 @@ nnoremap tg :TagbarToggle<CR>
 
 """ Plugin config
 
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+"coc
+" Use tab for trigger completion with characters ahead and navigate
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config
+inoremap <silent><expr> <C-Space>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-Space> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation
+nmap <silent> <Space>gd <Plug>(coc-definition)
+" nmap <silent> <Space>gy <Plug>(coc-type-definition)
+nmap <silent> <Space>gi <Plug>(coc-implementation)
+nmap <silent> <Space>gr <Plug>(coc-references)
+nnoremap <silent> <Space>do :call ShowDocumentation()<CR>
+nmap <leader><Space>rn <Plug>(coc-rename)
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 let g:copilot_filetypes = {
   \ '*': v:false,

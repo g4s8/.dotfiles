@@ -51,3 +51,5 @@
 # create local or private config in ~/.gitconfig.local
 [include]
         path = .gitconfig.include
+[http]
+	postBuffer = 524288000
