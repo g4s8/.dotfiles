@@ -34,6 +34,15 @@ install_linux() {
                 curl \
                 git
             ;;
+        amzn)
+            echo "> Detected Amazon Linux"
+            sudo yum install -y --allowerasing \
+                bash \
+                ncurses \
+                curl \
+                git
+            echo "> WARNING! Neovim is not available in Amazon Linux repositories. Please install it manually."
+            ;;
         *)
             echo "Unsupported Linux distro: $os_id"
             exit 1
