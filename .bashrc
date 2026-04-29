@@ -1,6 +1,13 @@
 __bashrc_start="$EPOCHREALTIME"
 
-if [ -d ~/.bashrc.d ]; then
+if [[ -f /etc/bashrc ]]; then
+  source /etc/bashrc
+fi
+if [[ -f /etc/bash/bashrc ]]; then
+  source /etc/bash/bashrc
+fi
+
+if [[ -d ~/.bashrc.d ]]; then
   for rc in ~/.bashrc.d/*; do
     if [ -f "$rc" ]; then
       source "$rc"
